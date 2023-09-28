@@ -52,6 +52,7 @@ select ITEM in "Setup Everything" "Update and upgrade" "Install administrative t
 			upgrade
 			admin_tools
 			dev_tools
+   			echo "Finished post install."
    			sleep 1
 			;;
 		2)	
