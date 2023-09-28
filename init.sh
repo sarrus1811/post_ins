@@ -56,17 +56,14 @@ select ITEM in "Setup Everything" "Update and upgrade" "Install administrative t
 			;;
 		2)	
 			upgrade
-   			sleep 1
 			;;
 		3)
 			apt update
 			admin_tools
-   			sleep 1
 			;;
 		4)
 			apt update
 			dev_tools
-   			sleep 1
 			;;
 		5)
 			echo "Quitting..."
