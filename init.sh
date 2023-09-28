@@ -18,7 +18,7 @@ function admin_tools(){
 function dev_tools(){
 	echo "Setting up developer tools..."
 	sleep 1
-	apt install build-essential golang python3 wget gpg
+	apt install build-essential golang python3 wget gpg -y
 
 	#Install VScode
 	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
