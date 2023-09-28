@@ -5,7 +5,7 @@ function upgrade(){
         sleep 1
         apt update && apt upgrade -y
 	apt autoremove && apt autoclean -y
-        echo "Done upgrading"
+        echo "Done upgrading..."
 }
 
 function admin_tools(){
@@ -18,7 +18,7 @@ function admin_tools(){
 function dev_tools(){
 	echo "Setting up developer tools..."
 	sleep 1
-	apt install build-essential golang python3 wget gpg -y
+	apt install build-essential gdb valgrind golang python3 wget gpg -y
 
 	#Install VScode
 	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
@@ -52,17 +52,21 @@ select ITEM in "Setup Everything" "Update and upgrade" "Install administrative t
 			upgrade
 			admin_tools
 			dev_tools
+   			sleep 1
 			;;
 		2)	
 			upgrade
+   			sleep 1
 			;;
 		3)
 			apt update
 			admin_tools
+   			sleep 1
 			;;
 		4)
 			apt update
 			dev_tools
+   			sleep 1
 			;;
 		5)
 			echo "Quitting..."
