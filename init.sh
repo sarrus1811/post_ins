@@ -4,22 +4,26 @@ function upgrade(){
 	echo "Updating and upgrading..."
         sleep 1
         apt update && apt upgrade -y
+	apt dist-upgrade
 	apt autoremove && apt autoclean -y
-        echo "Done upgrading..."
+        echo "Done upgrading"
 }
 
 function admin_tools(){
 	echo "Setting up administrative tools..."
 	sleep 1
-	apt install bleachbit htop vim terminator net-tools openssh-server openssh-client -y
+	apt install bleachbit htop terminator net-tools openssh-server openssh-client -y
 	echo "Done..."
 }
 
 function dev_tools(){
 	echo "Setting up developer tools..."
 	sleep 1
-	apt install build-essential gdb valgrind golang python3 wget gpg -y
-
+	apt install emacs build-essential git golang python3 wget gpg gdb valgrind -y
+	
+	# Installs nvm (Node Version Manager)
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+     
 	#Install VScode
 	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
 	sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
@@ -30,9 +34,14 @@ function dev_tools(){
 	apt install code # or code-insiders
 		
 	# Install VScode extensions
-	code --install-extension ms-python.python
-	code --install-extension golang.Go
-	code --install-extension ms-vscode.cpptools-extension-pack
+	echo "Installing VScode extensions"
+	#code --no-sandbox --disable-gpu-sandbox --user-data-dir=/root/.vscode/ --install-extension ms-python.python
+	code --no-sandbox --disable-gpu-sandbox --user-data-dir=/usr/share/code --install-extension ms-python.python 
+      	code --no-sandbox --disable-gpu-sandbox --user-data-dir=/usr/share/code --install-extension golang.Go
+	code --no-sandbox --disable-gpu-sandbox --user-data-dir=/usr/share/code --install-extension ms-vscode.cpptools-extension-pack
+	code --no-sandbox --disable-gpu-sandbox --user-data-dir=/usr/share/code --install-extension dbaeumer.vscode-eslint
+	code --no-sandbox --disable-gpu-sandbox --user-data-dir=/usr/share/code --install-extension esbenp.prettier-vscode
+	code --no-sandbox --disable-gpu-sandbox --user-data-dir=/usr/share/code --install-extension naumovs.color-highlight
 	echo "Done..."
 }
 
@@ -52,8 +61,6 @@ select ITEM in "Setup Everything" "Update and upgrade" "Install administrative t
 			upgrade
 			admin_tools
 			dev_tools
-   			echo "Finished post install."
-   			sleep 1
 			;;
 		2)	
 			upgrade
