@@ -12,14 +12,14 @@ function upgrade(){
 function admin_tools(){
 	echo "Setting up administrative tools..."
 	sleep 1
-	apt install bleachbit htop terminator net-tools openssh-server openssh-client -y
+	apt install bleachbit htop terminator curl wget net-tools openssh-server openssh-client -y
 	echo "Done..."
 }
 
 function dev_tools(){
 	echo "Setting up developer tools..."
 	sleep 1
-	apt install emacs curl wget build-essential git golang ruby-full python3 wget gpg gdb valgrind -y
+	apt install emacs build-essential git golang ruby-full python3 wget gpg gdb valgrind -y
      
 	# Install VScode
 	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
