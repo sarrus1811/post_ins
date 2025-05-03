@@ -46,6 +46,9 @@ function dev_tools(){
 	sudo apt-get update
  	# Finally install Docker
   	sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+    	#Install Podman
+     	sudo apt install podman -y
 }
 
 function display_options(){
