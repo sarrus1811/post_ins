@@ -46,17 +46,6 @@ function dev_tools(){
 	sudo apt-get update
  	# Finally install Docker
   	sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-		
-	# Install VScode extensions
-	echo "Installing VScode extensions"
-	#code --no-sandbox --disable-gpu-sandbox --user-data-dir=/root/.vscode/ --install-extension ms-python.python
-	code --no-sandbox --disable-gpu-sandbox --user-data-dir=/usr/share/code --install-extension ms-python.python 
-      	code --no-sandbox --disable-gpu-sandbox --user-data-dir=/usr/share/code --install-extension golang.Go
-	code --no-sandbox --disable-gpu-sandbox --user-data-dir=/usr/share/code --install-extension ms-vscode.cpptools-extension-pack
-	code --no-sandbox --disable-gpu-sandbox --user-data-dir=/usr/share/code --install-extension dbaeumer.vscode-eslint
-	code --no-sandbox --disable-gpu-sandbox --user-data-dir=/usr/share/code --install-extension esbenp.prettier-vscode
-	code --no-sandbox --disable-gpu-sandbox --user-data-dir=/usr/share/code --install-extension naumovs.color-highlight
-	echo "Done..."
 }
 
 function display_options(){
