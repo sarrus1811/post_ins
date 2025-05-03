@@ -19,7 +19,8 @@ function admin_tools(){
 function dev_tools(){
 	echo "Setting up developer tools..."
 	sleep 1
-	apt install emacs build-essential git golang ruby-full python3 wget gpg gdb valgrind -y
+	apt install emacs build-essential git golang ruby-full python3 wget gpg gdb valgrind chromium -y
+ 	apt remove firefox -y
      
 	# Install VScode
 	wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
