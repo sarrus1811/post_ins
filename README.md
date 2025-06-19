@@ -1,2 +1,2 @@
 # post_ins
-Post installation script for debian.
+Setup after installation
