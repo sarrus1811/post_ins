@@ -3,7 +3,7 @@
 ###############################################################
 # --- Post installtion script ---
 # 
-# Install and setup omost used programs #
+# Install and setup most used programs #
 # #
 # --- Change History ---
 # #
@@ -40,7 +40,7 @@ function vscode_install(){
     sudo apt install code # or code-insiders
 
     # Install VScode extensions
-    # echo "Installing VScode extensions"
+    # echo "Setting up VScode extensions"
     # code --no-sandbox --disable-gpu-sandbox --user-data-dir=/home/$USER/.vscode/ --install-extension ms-python.python
     echo "Done..."
 }
@@ -50,8 +50,12 @@ function flatpak_install(){
     sudo flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
 }
 
+function podman_setup(){
+    sudo apt install podman -y
+}
+
 function js_setup(){
-    echo "Installing nvm..."
+    echo "Setting up nvm..."
     sleep 1
     sudo curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.3/install.sh | bash
     if [[ $(command -v nvm) != "nvm" ]]; then
@@ -113,6 +117,7 @@ function rust_setup(){
 function upgrade(){
     echo "Updating and upgrading..."
     sleep 1
+    sudo apt remove firefox firefox-esr
     apt update && apt upgrade -y
     apt dist-upgrade
     apt autoremove && apt autoclean -y
@@ -125,7 +130,6 @@ function admin_tools(){
     sudo apt install bleachbit htop terminator tmux curl wget net-tools openssh-server openssh-client chromium -y
     sudo js_setup
     sudo bash_setup
-    sudo apt remove firefox
     flatpak_install
     echo "Done..."
 }
@@ -137,7 +141,6 @@ function dev_tools(){
     vscode_install
     docker_install
     ruby_setup
-    go_setup
 }
 
 function display_menu(){
@@ -149,7 +152,7 @@ function display_menu(){
     echo "6. Quit"
 }
 
-TASKS=("bash" "ruby" "python" "go" "js" "c" "rust" "docker" "vscode" "flatpak" "list")
+TASKS=("bash" "ruby" "python" "go" "js" "c" "rust" "docker" "podman" "vscode" "flatpak" "list")
 
 function display_tasks(){
     echo "--Available tasks--"
@@ -177,47 +180,51 @@ install_tool() {
 
     case "$TOOL" in
         bash)
-            echo "Installing Bash environment..."
+            echo "Setting up Bash..."
             bash_setup	      
             ;;
         js)
-            echo "Installing JavaScript environment..."
+            echo "Setting up JavaScript..."
             js_setup
             ;;
         ruby)
-            echo "Installing Ruby environment..."
+            echo "Setting up Ruby..."
             ruby_setup
             ;;
         go)
-            echo "Installing Go environment..."
+            echo "Setting up Go..."
             go_setup
             ;;
         c)
-            echo "Installing C/C++ environment..."
+            echo "Setting up C/C++ tools..."
             c_setup
             ;;
         python)
-            echo "Installing Python environment..."
+            echo "Setting up Python..."
             python_setup
             ;;
         rust)
-            echo "Installing Rust environment..."
+            echo "Setting up Rust..."
             rust_setup
             ;;
         docker)
-            echo "Installing Docker..."
+            echo "Setting up Docker..."
             docker_setup
             ;;
+        podman)
+            echo "Setting up Podman..."
+            podman_setup
+            ;;
         vscode)
-            echo "Installing VSCode..."
+            echo "Setting up VSCode..."
             vscode_setup
             ;;
-	zed)
-	    echo "Installing Zed..."
-	    sudo curl -f https://zed.dev/install.sh | sh
+	    zed)
+            echo "Setting up Zed..."
+            sudo curl -f https://zed.dev/install.sh | sh
 	    ;;
         flatpak)
-            echo "Installing Flatpak..."
+            echo "Setting up Flathub..."
             flatpak_setup
             ;;
         list)
@@ -286,6 +293,12 @@ help()
 
 USER="$(whoami)"
 echo "Running script for user $USER..."
+
+if [[ "$#" -eq 0 ]]; then
+    echo "No arguments given..."
+    help
+    exit 0 # Exit after showing help if no options are mandatory
+fi
 
 while getopts "qdmhi:" opt; do
     case $opt in
