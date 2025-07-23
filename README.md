@@ -1,2 +1,2 @@
 # post_ins
-Setup after installation
+Environment setup
