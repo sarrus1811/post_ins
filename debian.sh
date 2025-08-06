@@ -74,24 +74,6 @@ function ruby_setup(){
     sleep 1
     sudo apt install ruby-full ruby-bundler -y
     sudo gem install ruby-lsp
-
-    # sudo bash -c "
-    # printf '%s\n' '
-    # # Function to create and populate a Gemfile
-    # function gemfile_make() {
-    # 	touch Gemfile
-    # 	printf ''''%s\n'''' ''''
-    # 	# Gemfile
-    # 	source \"https://rubygems.org\"
-    # 	# ... other gems ...
-    # 	group :development, :test do
-    # 	gem \"ruby-lsp\" # Add this line
-    # 	# gem \"rubocop\", require: false # For linting via Ruby LSP
-    # 	end
-    # 	'''' >> Gemfile
-    # }
-    # ' >> \"$USER/.bashrc\"
-    # "
 }
 
 function go_setup(){
