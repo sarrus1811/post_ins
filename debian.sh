@@ -88,7 +88,8 @@ function c_setup(){
 
 function python_setup(){
     sleep 1
-    sudo apt install python3 python3-venv
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+    #sudo apt install python3 python3-venv
     npm install -g pyright
 }
 
