@@ -36,9 +36,11 @@ function ghostty_setup(){
     printf "#background = 25003e\n"  >> ~/.config/ghostty/config
     printf "#foreground = ffffff\n" >> ~/.config/ghostty/config
     printf "\n"
+    printf "font-family = \n"
+    printf "\n"
     printf "keybind = ctrl+shift+w=close_surface\n" >> ~/.config/ghostty/config
 }
- 
+
 function flathub_setup(){
     "Setting up flatpacks..."
     sudo xbps-install -S flatpak -y
@@ -108,7 +110,18 @@ function upgrade(){
 
 function setup_fonts(){
     git clone https://github.com/sarrus1811/fonts
-
+    cd fonts
+    mkdir Hack Fira_Code JetBrainsMono Recursive Mononoki
+    unzip Hack-v3.003-ttf.zip -d Hack/
+    unzip JetBrainsMono-2.304.zip  -d JetBrainsMono/
+    unzip Fira_Code.zip -d Fira_Code/
+    unzip Recursive.zip -d Recursive/
+    unzip mononoki.zip -d Mononoki/
+    sudo cp Hack/ttf/*.ttf /usr/share/fonts/TTF/
+    sudo cp JetBrainsMono/fonts/ttf/*.ttf /usr/share/fonts/TTF/
+    sudo cp Fira_Code/static/*.ttf /usr/share/fonts/TTF/
+    sudo cp Recursive/static/*.ttf /usr/share/fonts/TTF/
+    sudo cp Mononoki/*.ttf /usr/share/fonts/TTF/
     sudo fc-cache -fv
 }
 
@@ -117,18 +130,18 @@ function admin_tools(){
     sleep 1
     mkdir temp
     cd temp
-    sudo  xbps-install -S bleachbit btop curl wget net-tools openssh-server openssh-client zoxide fzf unzip chromium -y
+    sudo xbps-install -S bleachbit btop curl wget net-tools openssh-server openssh-client zoxide fzf unzip chromium -y
+    flatpak_install
     js_setup
     bash_setup
     tmux_setup
-    flatpak_install
     ghostty_setup
     # -- setup zoxide
     echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
     source ~/.bashrc
     cd ~
     sudo rm -rf temp
-    flatpak install flathub engineer.atlas.Nyxt
+    # flatpak install flathub engineer.atlas.Nyxt
     echo "Done..."
 }
 
@@ -150,7 +163,7 @@ function display_menu(){
     echo "6. Quit"
 }
 
-TASKS=("bash" "ruby" "python" "go" "js" "c" "rust" "docker" "podman" "vscode" "flatpak" "list")
+TASKS=("bash" "ruby" "python" "go" "js" "c" "rust" "docker" "podman" "vscode" "flatpak" "zed" "list")
 
 function display_tasks(){
     echo "--Available tasks--"
@@ -279,7 +292,7 @@ help()
    echo "options:"
    echo " -q  - Quick setup; updates and installs everything"
    echo " -d  - Setup developer environment"
-   echo " -i  - Install specified tool(s)"
+   echo " -i  - Install tool(s) by name"
    echo " -m  - Run the menu"
    echo " -h  - Display this message"
    echo
@@ -299,31 +312,31 @@ fi
 
 while getopts "qdmhi:" opt; do
     case $opt in
-	q)
-	    upgrade
-	    admin_tools
-	    dev_tools
-	    ;;
-	d)
-	    dev_tools
-	    ;;
-	i)
-	    TOOL=$OPTARG
-	    install_tool $TOOL
-	    ;;
-	m)
-	    menu
-	    ;;
-	h)
-	    help
-	    ;;
-	\?)
-	    echo "Invalid option: -$OPTARG" >&2
-	    exit 1
-	    ;;
-	:)
-	    echo "Option -$OPTARG requires an argument." >&2
-	    exit 1
-	    ;;
+        q)
+            upgrade
+            admin_tools
+            dev_tools
+            ;;
+        d)
+            dev_tools
+            ;;
+        i)
+            TOOL=$OPTARG
+            install_tool $TOOL
+            ;;
+        m)
+            menu
+            ;;
+        h)
+            help
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            exit 1
+            ;;
+        :)
+            echo "Option -$OPTARG requires an argument." >&2
+            exit 1
+            ;;
     esac
 done
