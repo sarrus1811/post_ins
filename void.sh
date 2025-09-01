@@ -13,6 +13,9 @@ function docker_install() {
     echo "Installing docker..."
     sleep 1
     sudo xbps-install -S docker -y
+    sudo ln -s /etc/sv/docker /var/service/
+    sudo usermod -aG docker ${USER}
+    newgrp docker
 }
 
 function vscode_install(){
