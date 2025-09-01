@@ -25,6 +25,7 @@ function tmux_setup(){
     git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
     mkdir -p ~/.config/tmux/plugins/catppuccin
     git clone -b v2.1.3 https://github.com/catppuccin/tmux.git ~/.config/tmux/plugins/catppuccin/tmux
+    git clone https://github.com/sarrus1811/
     tmux source ~/.tmux.conf
 }
 
@@ -52,6 +53,7 @@ function flathub_setup(){
 function podman_setup(){
     echo "Installing podman..."
     sudo xbps-install podman buildah skopeo -y
+    echo "Done..."
 }
 
 function js_setup(){
@@ -60,33 +62,44 @@ function js_setup(){
     sudo xbps-install -S nodejs -y
     sudo npm install -g typscript
     sudo npm install -g typescript-language-server
+    echo "Done..."
 }
 
 function bash_setup(){
     echo "Setting up Bash language server..."
     sleep 1
     sudo npm install -g bash-language-server
+    echo "Done..."
 }
 
 function ruby_setup(){
     echo "Setting up Ruby tools..."
     sleep 1
-    sudo xbps-install -S ruby ruby-devel -y
+    curl -fsSL https://rbenv.org/install.sh | bash
+    echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+    git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+    sudo xbps-install -S libffi-devel libyaml-devel openssl-devel readline-devel zlib-devel
+    rbenv install 3.4.5
+    rbenv global 3.4.5
+    gem install bundler
     gem install ruby-lsp
-
+    rbenv rehash
+    echo "Done..."
 }
 
 function go_setup(){
+    echo "Installing Go tools..."
     sleep 1
-    echo "Installing go tools..."
     xbps-install -S go -y
     go install golang.org/x/tools/gopls@latest
+    echo "Done..."
 }
 
 function c_setup(){
     echo "Installing C/C++ tools..."
-    xbps-install -S clang clang-tools-extra -y
     sleep 1
+    xbps-install -S clang clang-tools-extra -y
+    echo "Done..."
 }
 
 function python_setup(){
@@ -109,6 +122,8 @@ function upgrade(){
 }
 
 function setup_fonts(){
+    echo "Setting up fonts..."
+    sleep 1
     git clone https://github.com/sarrus1811/fonts
     cd fonts
     mkdir Hack Fira_Code JetBrainsMono Recursive Mononoki
@@ -123,6 +138,8 @@ function setup_fonts(){
     sudo cp Recursive/static/*.ttf /usr/share/fonts/TTF/
     sudo cp Mononoki/*.ttf /usr/share/fonts/TTF/
     sudo fc-cache -fv
+    sleep 1
+    echo "Done..."
 }
 
 function admin_tools(){
@@ -130,12 +147,10 @@ function admin_tools(){
     sleep 1
     mkdir temp
     cd temp
-    sudo xbps-install -S bleachbit btop curl wget net-tools openssh-server openssh-client zoxide fzf unzip chromium -y
+    sudo xbps-install -S bleachbit btop unzip curl wget net-tools openssh-server openssh-client zoxide fzf chromium -y
     flatpak_install
     js_setup
     bash_setup
-    tmux_setup
-    ghostty_setup
     # -- setup zoxide
     echo 'eval "$(zoxide init bash)"' >> ~/.bashrc
     source ~/.bashrc
@@ -148,10 +163,13 @@ function admin_tools(){
 function dev_tools(){
     echo "Setting up developer tools..."
     sleep 1
-    sudo xbps-install -S emacs-x11-30.2_1 git wget gpg -y
+    sudo xbps-install -S emacs-x11-30.2_1 git wget gpg base-devel -y
+    tmux_setup
+    ghostty_setup
     vscode_install
     docker_install
     ruby_setup
+    echo "Done..."
 }
 
 function display_menu(){
